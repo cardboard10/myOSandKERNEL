@@ -1,3 +1,3 @@
-cd C:\Users\lando\projs\OS\UEFI1
+Set-Location $PSScriptRoot
 .\build.ps1
 .\runvm.ps1
