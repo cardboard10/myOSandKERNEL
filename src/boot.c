@@ -2,6 +2,7 @@
 //#include <efiprot.h>
 
 #include <myheaders.h>
+#include "MAIN.h"
 
 static EFI_GUID gEfiGraphicsOutputProtocolGuid = {
     0x9042a9de, 0x23dc, 0x4a38, {0x96, 0xfb, 0x7a, 0xde, 0xd0, 0x80, 0x51, 0x6a}
@@ -75,6 +76,17 @@ EFI_STATUS EFIAPI efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE* SystemTable
             break;
         }
     }
+    
+    efiInfoBox info;
+    info.mem_map.memory_map_size = memory_map_size;
+    info.mem_map.memory_map = memory_map;
+    info.mem_map.map_key = map_key;
+    info.mem_map.descriptor_size = descriptor_size;
+    info.mem_map.descriptor_version = descriptor_version;
+    info.rsdp = rsdp;
+    info.screen_info = &screen_info;
+
+
 
     // ---------------------------------------------------------
     // 4. EXIT BOOT SERVICES
@@ -89,41 +101,5 @@ EFI_STATUS EFIAPI efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE* SystemTable
     // =========================================================
     // YOU ARE ON BARE METAL NOW. UEFI IS GONE.
     // =========================================================
-    uint32_t color = 0x00FF0000;
-    for (int x = 0; x < screen_info.screen_width; x++) {
-        for (int y = 0; y < screen_info.screen_height; y++) {
-            set_pixel(&screen_info, x, y, color);
-        }
-    }
-    while (1) {
-        Key key;
-        key = get_key();
-        if (key.asci == 'r') {
-            uint32_t color = 0x00FF0000;
-            for (int x = 0; x < screen_info.screen_width; x++) {
-                for (int y = 0; y < screen_info.screen_height; y++) {
-                    set_pixel(&screen_info, x, y, color);
-                }
-            }
-        }
-        else if (key.asci == 'g') {
-            uint32_t color = 0x0000FF00;
-            for (int x = 0; x < screen_info.screen_width; x++) {
-                for (int y = 0; y < screen_info.screen_height; y++) {
-                    set_pixel(&screen_info, x, y, color);
-                }
-            }
-        }
-        else if (key.asci == 'b') {
-            uint32_t color = 0x000000FF;
-            for (int x = 0; x < screen_info.screen_width; x++) {
-                for (int y = 0; y < screen_info.screen_height; y++) {
-                    set_pixel(&screen_info, x, y, color);
-                }
-            }
-        }
-        else if (key.asci == '\n') {
-            draw_text(&screen_info,"ABC", 3, 3, 3);
-        }
-    }
+    MAIN(screen_info,info);
 }

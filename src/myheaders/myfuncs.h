@@ -49,21 +49,21 @@ void draw_chr(ScreenInfo* screen_info, char chr, int gx, int gy) {
 	bmap[7] = font8x8[chr][7];
 	uint32_t red = 0x00FF0000;
 	uint32_t blue = 0x000000FF;
-	for (int x = 0;x < 8;x++) {
-		for (int y = 0;y < 8;y++) {
-			set_pixel(screen_info, (gx*8) + x, (gy * 8) + y, 0x00FF0000);
+	for (int x = 0;x < 9;x++) {
+		for (int y = 0;y < 9;y++) {
+			set_pixel(screen_info, (gx*9) + x, (gy * 9) + y, 0x00FF0000);
 		}
 	}
 	for (int x = 0;x < 8;x++) {
 		for (int y = 0;y < 8;y++) {
 			if ((bmap[y] >> (7 - x)) & 1) {
-				set_pixel(screen_info, (gx * 8) + x, (gy * 8) + y, 0x00000000FF);
+				set_pixel(screen_info, (gx * 9) + x, (gy * 9) + y, 0x00000000FF);
 			}
 		}
 	}
 }
 
-void draw_text(ScreenInfo* screen_info, char txt[], int txt_len, int gx, int gy) {
+void draw_text(ScreenInfo* screen_info, char* txt, int txt_len, int gx, int gy) {
 	for (int i = 0;i < txt_len;i++) {
 		draw_chr(screen_info, txt[i], gx + i, gy);
 	}

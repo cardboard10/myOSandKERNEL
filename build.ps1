@@ -7,13 +7,13 @@ Set-Location $SrcDir
 Write-Host " 1. Clean up old build files"
 Remove-Item main.o, BOOTX64.EFI -ErrorAction SilentlyContinue
 
-Write-Host " 2. Compile main.c"
+Write-Host " 2. Compile"
 Write-Host "compiling----------------------------------------------------------------------------------------------------------------------------"
 Write-Host "asm..."
 nasm -f win64 func.asm -o func.o
 
 Write-Host "C..."
-gcc -ffreestanding -fno-stack-protector -fpic -fshort-wchar -mno-red-zone -I"$SrcDir\efi-headers\" -I"$SrcDir\myheaders\" -c main.c -o main.o
+gcc -ffreestanding -fno-stack-protector -fpic -fshort-wchar -mno-red-zone -I"$SrcDir\efi-headers\" -I"$SrcDir\myheaders\" -c boot.c -o main.o
 Write-Host "finished"
 Write-Host "----------------------------------------------------------------------------------------------------------------------------"
 
